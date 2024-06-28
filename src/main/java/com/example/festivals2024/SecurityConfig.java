@@ -32,11 +32,12 @@ public class SecurityConfig {
     				.requestMatchers("/css/**").permitAll()
 					.requestMatchers("/images/**").permitAll()
 					.requestMatchers("/403**").permitAll()
-					.requestMatchers("/music/**").hasAnyRole("USER", "ADMIN")
+					.requestMatchers("/home/**").hasAnyRole("USER", "ADMIN")
+					.requestMatchers("/genre/**").hasAnyRole("USER", "ADMIN")
 		).
     	
     	formLogin(form -> 
-    		form.defaultSuccessUrl("/festivals/overview", true)
+    		form.defaultSuccessUrl("/home/overview", true)
                 	.loginPage("/login")
 					.usernameParameter("username").passwordParameter("password")
 		)

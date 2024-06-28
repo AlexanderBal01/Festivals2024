@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{genre.overview.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/genre/overview.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+</head>
+<body>
+    <ul class="navbar">
+        <li class="navbar active"><span class="navbar" th:text="#{genre.overview.navbar.active}"></span></li>
+        <li class="navbar"><a class="navbar" th:href="|/home/overview|" th:text="#{genre.overview.navbar.goBack}"></a></li>
+        <li class="navbar" th:if="${user.role.name() == 'USER' && user.tickets == ne}"><a class="navbar" th:href="|/tickets/${user.username}|" th:text="#{genre.overview.navbar.tickets}"></a></li>
+        <li class="navbar" th:if="${user.role.name() == 'ADMIN'}"><a class="navbar" th:href="|/genre/${musicGenre.musicgenreid}/add-festival|" th:text="|${musicGenre.name}: #{genre.overview.navbar.festival}|"></a></li>
+        <li class="navbar" style="float: right">
+            <form th:action="@{/logout}" method="post">
+                <input class="navbar" type="submit" th:value="#{genre.overview.navbar.logout}" />
+            </form>
+        </li>
+        <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
+    </ul>
+
+    <div class="content">
+        <h2 th:text="|#{genre.overview.h2.title} ${musicGenre.name}|"></h2>
+        <div class="card">
+            <div class="div-table">
+                <table>
+                    <tr>
+                        <th th:text="#{genre.overview.table.th.festival}"></th>
+                        <th th:text="#{genre.overview.table.th.start}"></th>
+                        <th th:text="#{genre.overview.table.th.location}"></th>
+                        <th th:text="#{genre.overview.table.th.performances}"></th>
+                        <th th:text="#{genre.overview.table.th.freeTickets}"></th>
+                        <th th:text="#{genre.overview.table.th.priceTicket}"></th>
+                        <th th:if="${user.role.name() == 'USER'}" th:text="#{genre.overview.table.th.myTickets}"></th>
+                        <th th:if="${user.role.name() == 'USER'}">Ticket Kopen</th>
+                    </tr>
+                    <th:block th:each="festival,iter: ${festivals}">
+                        <tr>
+                            <td th:text="${festival.name}"></td>
+                            <td th:text="${festival.datum}"></td>
+                            <td th:text="${festival.regio.name}"></td>
+                            <td>
+                                <ul>
+                                    <th:block th:each="artist,iter: ${festival.artists}">
+                                        <li th:text="|${artist.name} - ${artist.datum}|"></li>
+                                    </th:block>
+                                </ul>
+                            </td>
+                            <td th:text="${festival.ticket}"></td>
+                            <td>
+                                <span th:if="${user.role.name() == 'USER' && festival.ticket != 0}" th:text="${festival.ticketPrijs}"></span>
+                                <span th:if="${user.role.name() == 'ADMIN'}" th:text="${festival.ticketPrijs}"></span>
+                            </td>
+                            <td>
+                                <span th:if="${userTickets.isEmpty()}" th:text="0"></span>
+                                <span th:text="${userTickets.get(festival.festivalid)}"></span>
+                            </td>
+                            <td th:if="${user.role.name() == 'USER'}"><a class="btn" th:href="|/buy/festival/${festival.festivalid}/tickets|">Koop tickets</a></td>
+                        </tr>
+                    </th:block>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Login Page</title>
+<title th:text="#{login.title}"></title>
 <link rel="stylesheet" th:href="@{/css/global.css}" />
 <link rel="stylesheet" th:href="@{/css/login/login.css}" />
 </head>
@@ -10,17 +10,17 @@
 	<div class="content">
 		<div class="login-box">
 			<div class="login-box-inner-content">
-				<div th:if="${error}" class="error" th:text="${error}"></div>
+				<div th:if="${error}" class="error" th:text="|${error} - #{login.form.error}|"></div>
 
-				<div th:if="${msg}" class="msg" th:text="${msg}"></div>
+				<div th:if="${msg}" class="msg" th:text="#{login.form.msg}"></div>
 
 				<form class="login-form" th:action="@{/login}" method="post">
-					<p class="form-text">Username:</p>
+					<p class="form-text" th:text="#{login.form.usernameTxt}"></p>
 					<input class="input-username" type='text' name='username' value=''>
-					<p class="form-text">password:</p>
+					<p class="form-text" th:text="#{login.form.passwordTxt}"></p>
 					<input class="input-password" type='password' name='password' />
 
-					<button class="submit-button" name="submit" type="submit">Login</button>
+					<button class="submit-button" name="submit" type="submit" th:text="#{login.form.loginBtn}"></button>
 
 					<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 

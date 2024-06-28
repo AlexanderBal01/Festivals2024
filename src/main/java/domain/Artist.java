@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -28,4 +29,7 @@ public class Artist implements Serializable {
 
     @ManyToMany
     private List<Festival> bookings;
+
+    @Column(nullable = false)
+    private LocalDateTime datum;
 }

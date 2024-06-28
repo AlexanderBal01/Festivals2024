@@ -59,3 +59,11 @@
     width: 239px;
     border-width: 0px;
 }
+
+.msg {
+    color: #4169e1;
+}
+
+.error {
+    color: #ff0000;
+}

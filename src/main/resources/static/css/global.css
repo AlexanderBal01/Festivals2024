@@ -3,5 +3,52 @@ body {
     background-color: #eeeeee;
     margin: 0;
     height: 100vh;
-    width: 100vw;
+}
+
+ul.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li.navbar {
+    float: left;
+    min-height: inherit;
+}
+
+li.navbar a.navbar {
+    display: inline-block;
+    color: white;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+
+}
+
+li.navbar span.navbar {
+    display: inline-block;
+    color: white;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+}
+
+input.navbar {
+    display: inline-block;
+    background: #333;
+    color: white;
+    padding: 14px 16px;
+    text-shadow: none;
+    border-width: 0;
+    font-size: 16px;
+}
+
+li.navbar a.navbar:hover:not(.active), input.navbar:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #3498db;
 }

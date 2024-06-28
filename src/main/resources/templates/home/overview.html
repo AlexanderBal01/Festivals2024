@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{home.overview.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/home/overview.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+</head>
+<body>
+    <ul class="navbar">
+        <li class="navbar active"><span class="navbar" th:text="#{home.overview.navbar.active}"></span></li>
+        <li class="navbar" th:if="${user.role.name() == 'USER' && user.tickets == ne}"><a class="navbar" th:href="|/tickets/${user.username}|" th:text="#{home.overview.navbar.tickets}"></a></li>
+        <li class="navbar" style="float: right">
+            <form th:action="@{/logout}" method="post">
+                <input class="navbar" type="submit" th:value="#{home.overview.navbar.logout}" />
+            </form>
+        </li>
+        <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
+    </ul>
+    <div class="content">
+        <h2 th:text="#{home.overview.h2.genre}"></h2>
+        <div class="content-inner">
+            <th:block th:each="genre,iter: ${musicGenres}">
+                <div class="card">
+                    <div class="container">
+                        <h2 class="h2-subtitle" th:text="${genre.name}"></h2>
+                        <a class="btn" th:href="|/genre/${genre.musicgenreid}/overview|" th:text="#{home.overview.a.genre.festivals}"></a>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+
+
+        <h2 th:text="#{home.overview.h2.location}"></h2>
+        <div class="content-inner">
+            <th:block th:each="regio,iter: ${regios}">
+                <div class="card">
+                    <div class="container">
+                        <h2 class="h2-subtitle" th:text="${regio.name}"></h2>
+                        <a class="btn" th:href="|/regio/${regio.regioid}/overview|" th:text="#{home.overview.a.location.festivals}"></a>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Builder
@@ -34,4 +35,7 @@ public class MyUser implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Role role;
+
+    @ManyToMany
+    private List<Festival> tickets;
 }

@@ -7,9 +7,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import repository.UserRepository;
+import service.FestivalService;
 import service.MusicGenreService;
 import service.RegioService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +28,9 @@ public class InitDataConfig implements CommandLineRunner {
 
     @Autowired
     private RegioService regioService;
+
+    @Autowired
+    private FestivalService festivalService;
 
     @Override
     public void run(String... args) {
@@ -86,6 +92,7 @@ public class InitDataConfig implements CommandLineRunner {
                 MusicGenre.builder()
                         .name("Pop")
                         .build();
+
         var rock =
                 MusicGenre.builder()
                         .name("Rock")
@@ -95,12 +102,18 @@ public class InitDataConfig implements CommandLineRunner {
                 MusicGenre.builder()
                         .name("Metal")
                         .build();
+
         var hipHop =
                 MusicGenre.builder()
                         .name("Hip Hop")
                         .build();
 
-        List<MusicGenre> genres = Arrays.asList(drumAndBass, pop, rock, metal,hipHop);
+        var elektronisch =
+                MusicGenre.builder()
+                        .name("Elektronisch")
+                        .build();
+
+        List<MusicGenre> genres = Arrays.asList(drumAndBass, pop, rock, metal, hipHop, elektronisch);
 
         musicGenreService.saveAll(genres);
     }
@@ -169,6 +182,8 @@ public class InitDataConfig implements CommandLineRunner {
     }
 
     private void insertFestivals() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
         var luik = regioService.findByName("Luik");
         var antwerpen = regioService.findByName("Antwerpen");
         var westVlaanderen = regioService.findByName("West-Vlaanderen");
@@ -179,6 +194,10 @@ public class InitDataConfig implements CommandLineRunner {
 
         var hipHop = musicGenreService.findByName("Hip Hop");
         var metal = musicGenreService.findByName("Metal");
+        var elektronisch = musicGenreService.findByName("Elektronisch");
+        var pop = musicGenreService.findByName("Pop");
+        var drumAndBass = musicGenreService.findByName("Drum and Bass");
+        var rock = musicGenreService.findByName("Rock");
 
         var lesArdentes =
                 Festival.builder()
@@ -187,6 +206,9 @@ public class InitDataConfig implements CommandLineRunner {
                         .musicGenre(hipHop)
                         .logoLocation("/images/logos/lesArdentes.jpeg")
                         .logoDescription("Logo les Ardentes")
+                        .datum(LocalDateTime.parse("11-07-2024 12:30", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
                         .build();
 
         var graspop =
@@ -195,7 +217,97 @@ public class InitDataConfig implements CommandLineRunner {
                         .regio(antwerpen)
                         .musicGenre(metal)
                         .logoLocation("/images/logos/graspop.png")
-                        .logoDescription("Logo graspop")
+                        .logoDescription("Logo Graspop Metal Meeting")
+                        .datum(LocalDateTime.parse("20-06-2024 11:25", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
                         .build();
+
+        var tomorrowland =
+                Festival.builder()
+                        .name("Tomorrowland")
+                        .regio(antwerpen)
+                        .musicGenre(elektronisch)
+                        .logoLocation("/images/logos/tomorrowland.png")
+                        .logoDescription("Logo Tomorrowland")
+                        .datum(LocalDateTime.parse("19-07-2024 12:00", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
+                        .build();
+
+        var wecandance =
+                Festival.builder()
+                        .name("WECANDANCE")
+                        .regio(westVlaanderen)
+                        .musicGenre(elektronisch)
+                        .logoLocation("/images/logos/wecandance.jpeg")
+                        .logoDescription("Logo WECANDANCE")
+                        .datum(LocalDateTime.parse("03-08-2024 14:00", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
+                        .build();
+
+        var lokerseFeesten =
+                Festival.builder()
+                        .name("Lokerse Feesten")
+                        .regio(oostVlaanderen)
+                        .musicGenre(pop)
+                        .logoLocation("/images/logos/lokerseFeesten.jpeg")
+                        .logoDescription("Logo Lokerse Feesten")
+                        .datum(LocalDateTime.parse("02-08-2024 20:00", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
+                        .build();
+
+        var rampage =
+                Festival.builder()
+                        .name("Rampage Open Air")
+                        .regio(limburg)
+                        .musicGenre(drumAndBass)
+                        .logoLocation("/images/logos/rampage.jpeg")
+                        .logoDescription("Logo Rampage Open Air")
+                        .datum(LocalDateTime.parse("05-07-2024 14:00", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
+                        .build();
+
+        var sunrise =
+                Festival.builder()
+                        .name("Sunrise Festival")
+                        .regio(antwerpen)
+                        .musicGenre(elektronisch)
+                        .logoLocation("/images/logos/sunrise.png")
+                        .logoDescription("Logo Sunrise Festival")
+                        .datum(LocalDateTime.parse("28-06-2024 14:00", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
+                        .build();
+
+        var rockWerchter =
+                Festival.builder()
+                        .name("Rock Werchter")
+                        .regio(vlaamsBrabant)
+                        .musicGenre(rock)
+                        .logoLocation("/images/logos/rockWerchter.jpeg")
+                        .logoDescription("Logo Rock Werchter")
+                        .datum(LocalDateTime.parse("04-07-2024 12:45", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
+                        .build();
+
+        var couleurCafe =
+                Festival.builder()
+                        .name("Couleur Cafe")
+                        .regio(brussel)
+                        .musicGenre(hipHop)
+                        .logoLocation("/images/logos/couleurCafe.jpeg")
+                        .logoDescription("Logo Couleur Cafe")
+                        .datum(LocalDateTime.parse("28-06-2024 17:00", formatter))
+                        .ticket(200)
+                        .ticketPrijs(75.00)
+                        .build();
+
+        List<Festival> festivals = Arrays.asList(lesArdentes, graspop, tomorrowland, wecandance, lokerseFeesten, rampage, sunrise, rockWerchter, couleurCafe);
+        festivalService.saveAll(festivals);
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,6 +31,9 @@ public class Festival implements Serializable {
 
     private String logoDescription;
 
+    @Column(nullable = false)
+    private LocalDateTime datum;
+
     @ManyToOne
     @JoinColumn(name = "musicgenreid")
     private MusicGenre musicGenre;
@@ -40,4 +44,11 @@ public class Festival implements Serializable {
 
     @ManyToMany
     private List<Artist> artists;
+
+    private Integer ticket;
+
+    private Double ticketPrijs;
+
+    @ManyToMany
+    private List<MyUser> festivalVisitors;
 }
