@@ -35,7 +35,7 @@ public class GenreController {
     public String genreFestivalOverview(@PathVariable Integer genreId, Model model, Principal principal) {
         MyUser user = userRepository.findByUsername(principal.getName());
         Optional<MusicGenre> musicGenre = musicGenreService.findById(genreId);
-        List<Festival> festivals = festivalService.findFestivalsByMusicGenre_MusicgenreidOrderByRegio(genreId);
+        List<Festival> festivals = festivalService.findFestivalsByMusicGenre_MusicgenreidOrderByRegioAscDatumAsc(genreId);
 
         Dictionary<Integer, Integer> festivalUserTickets = new Hashtable<>();
 

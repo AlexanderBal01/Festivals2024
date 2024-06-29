@@ -52,7 +52,7 @@
                                 <span th:if="${user.role.name() == 'USER' && festival.ticket != 0}" th:text="${festival.ticketPrijs}"></span>
                                 <span th:if="${user.role.name() == 'ADMIN'}" th:text="${festival.ticketPrijs}"></span>
                             </td>
-                            <td>
+                            <td th:if="${user.role.name() == 'USER'}">
                                 <span th:if="${userTickets.isEmpty()}" th:text="0"></span>
                                 <span th:text="${userTickets.get(festival.festivalid)}"></span>
                             </td>

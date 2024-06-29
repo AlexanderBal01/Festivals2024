@@ -9,5 +9,5 @@ import java.util.List;
 public interface FestivalRepository extends CrudRepository<Festival, Integer> {
     Festival findFestivalByName(String name);
     Integer countByFestivalVisitorsAndFestivalid(List<MyUser> users, Integer festival);
-    List<Festival> findFestivalsByMusicGenre_MusicgenreidOrderByRegio(Integer musicgenreid);
+    List<Festival> findFestivalsByMusicGenre_MusicgenreidOrderByRegioAscDatumAsc(Integer musicgenreid);
 }

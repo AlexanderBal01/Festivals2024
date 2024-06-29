@@ -24,8 +24,8 @@ public class FestivalService implements FestivalRepository {
     }
 
     @Override
-    public List<Festival> findFestivalsByMusicGenre_MusicgenreidOrderByRegio(Integer musicgenreid) {
-        return festivalRepository.findFestivalsByMusicGenre_MusicgenreidOrderByRegio(musicgenreid);
+    public List<Festival> findFestivalsByMusicGenre_MusicgenreidOrderByRegioAscDatumAsc(Integer musicgenreid) {
+        return festivalRepository.findFestivalsByMusicGenre_MusicgenreidOrderByRegioAscDatumAsc(musicgenreid);
     }
 
     @Override
