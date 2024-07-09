@@ -2,6 +2,7 @@ package service;
 
 import domain.Festival;
 import domain.MyUser;
+import exceptions.FestivalGenreNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import repository.FestivalRepository;
 
@@ -26,6 +27,20 @@ public class FestivalService implements FestivalRepository {
     @Override
     public List<Festival> findFestivalsByMusicGenre_MusicgenreidOrderByRegioAscDatumAsc(Integer musicgenreid) {
         return festivalRepository.findFestivalsByMusicGenre_MusicgenreidOrderByRegioAscDatumAsc(musicgenreid);
+    }
+
+    @Override
+    public List<Festival> findFestivalsByRegio_RegioidOrderByMusicGenreAscDatumAsc(Integer regioid) {
+        return festivalRepository.findFestivalsByRegio_RegioidOrderByMusicGenreAscDatumAsc(regioid);
+    }
+
+    @Override
+    public List<Festival> findFestivalsByMusicGenre_Musicgenreid(int id) {
+        List<Festival> festivals = festivalRepository.findFestivalsByMusicGenre_Musicgenreid(id);
+        if (festivals.isEmpty()) {
+            throw new FestivalGenreNotFoundException(id);
+        }
+        return festivals;
     }
 
     @Override

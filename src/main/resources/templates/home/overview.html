@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="#{home.overview.title}"></title>
-    <link rel="stylesheet" th:href="@{/css/home/overview.css}">
     <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/home/overview.css}">
+
 </head>
 <body>
     <ul class="navbar">
         <li class="navbar active"><span class="navbar" th:text="#{home.overview.navbar.active}"></span></li>
-        <li class="navbar" th:if="${user.role.name() == 'USER' && user.tickets == ne}"><a class="navbar" th:href="|/tickets/${user.username}|" th:text="#{home.overview.navbar.tickets}"></a></li>
+        <li class="navbar" th:if="${user.role.name() == 'USER' && not #lists.isEmpty(user.tickets)}"><a class="navbar" th:href="|/tickets|" th:text="#{home.overview.navbar.tickets}"></a></li>
         <li class="navbar" style="float: right">
             <form th:action="@{/logout}" method="post">
                 <input class="navbar" type="submit" th:value="#{home.overview.navbar.logout}" />
@@ -18,7 +19,11 @@
         <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
     </ul>
     <div class="content">
-        <h2 th:text="#{home.overview.h2.genre}"></h2>
+        <h2 th:if="${artistAdded}" class="succes" th:text="#{home.overview.h2.succes.artistAdded}"></h2>
+        <h2 th:if="${artistDeleted}" class="succes" th:text="#{home.overview.h2.succes.artistDeleted}"></h2>
+        <h2 th:if="${tickets}" class="succes" th:text="|${tickets} #{home.overview.h2.succes.tickets}|"></h2>
+
+        <h1 th:text="#{home.overview.h1.genre}"></h1>
         <div class="content-inner">
             <th:block th:each="genre,iter: ${musicGenres}">
                 <div class="card">
@@ -31,13 +36,13 @@
         </div>
 
 
-        <h2 th:text="#{home.overview.h2.location}"></h2>
+        <h1 th:text="#{home.overview.h1.location}"></h1>
         <div class="content-inner">
             <th:block th:each="regio,iter: ${regios}">
                 <div class="card">
                     <div class="container">
                         <h2 class="h2-subtitle" th:text="${regio.name}"></h2>
-                        <a class="btn" th:href="|/regio/${regio.regioid}/overview|" th:text="#{home.overview.a.location.festivals}"></a>
+                        <a class="btn" th:href="|/region/${regio.regioid}/overview|" th:text="#{home.overview.a.location.festivals}"></a>
                     </div>
                 </div>
             </th:block>

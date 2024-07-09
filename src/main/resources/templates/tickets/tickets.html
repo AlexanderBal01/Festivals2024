@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{tickets.tickets.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/tickets/tickets.css}">
+</head>
+<body>
+<ul class="navbar">
+    <li class="navbar active"><span class="navbar" th:text="#{tickets.tickets.navbar.active}"></span></li>
+    <li class="navbar"><a class="navbar" th:href="|/home/overview|" th:text="#{tickets.tickets.navbar.goBack}"></a></li>
+    <li class="navbar" style="float: right">
+        <form th:action="@{/logout}" method="post">
+            <input class="navbar" type="submit" th:value="#{tickets.tickets.navbar.logout}" />
+        </form>
+    </li>
+    <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
+</ul>
+
+<div class="content">
+    <h1 th:text="|#{tickets.tickets.h1}|"></h1>
+    <th:block th:each="ticket,iter: ${user.getTickets()}">
+        <div class="card">
+            <img class="card-image" th:src="@{${ticket.logoLocation}}" th:alt="${ticket.logoDescription}">
+            <div class="card-container">
+                <h1 th:text="|#{tickets.tickets.h1.owner} ${user.fullname}|"></h1>
+                <h2 th:text="|${ticket.name}|"></h2>
+                <h2 th:with="df=#{date.format}" th:text="|${#temporals.format(ticket.datum,df)}|"></h2>
+            </div>
+            <div class="card-container">
+                <ul>
+                    <th:block th:each="artist,iter: ${ticket.artists}">
+                        <li th:with="df=#{date.format}" th:text="|${artist.name}: ${#temporals.format(artist.startingHour,df)}|"></li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+    </th:block>
+</div>
+</body>
+</html>

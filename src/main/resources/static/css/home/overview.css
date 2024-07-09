@@ -39,8 +39,7 @@
 
 .btn {
     display: block;
-    background: #3498db;
-    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    background: #3498db linear-gradient(to bottom, #3498db, #2980b9);
     border-radius: 10px;
     color: #ffffff;
     font-size: 20px;
@@ -50,12 +49,15 @@
 }
 
 .btn:hover {
-    background: #3cb0fd;
-    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    background: #3cb0fd linear-gradient(to bottom, #3cb0fd, #3498db);
     text-decoration: none;
 }
 
 .h2-subtitle {
     margin-block-end: 1em;
     margin-block-start: 1em;
+}
+
+.succes {
+    color: #008000FF;
 }

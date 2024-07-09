@@ -213,7 +213,7 @@ public class InitDataConfig implements CommandLineRunner {
 
         var graspop =
                 Festival.builder()
-                        .name("Graspop Medtal Meeting")
+                        .name("Graspop Metal Meeting")
                         .regio(antwerpen)
                         .musicGenre(metal)
                         .logoLocation("/images/logos/graspop.png")

@@ -1,5 +1,6 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,12 +23,15 @@ public class Regio implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int regioid;
 
     @Column(nullable = false, unique = true)
+    @JsonIgnore
     private String name;
 
     @OneToMany(mappedBy = "regio")
+    @JsonIgnore
     private Set<Festival> festivals = new HashSet<>();
 
 }

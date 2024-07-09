@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{regio.overview.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/regio/overview.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
 </head>
 <body>
+<ul class="navbar">
+    <li class="navbar active"><span class="navbar" th:text="#{regio.overview.navbar.active}"></span></li>
+    <li class="navbar"><a class="navbar" th:href="|/home/overview|" th:text="#{regio.overview.navbar.goBack}"></a></li>
+    <li class="navbar" th:if="${user.role.name() == 'USER' && user.tickets == ne}"><a class="navbar" th:href="|/tickets|" th:text="#{regio.overview.navbar.tickets}"></a></li>
+    <li class="navbar" style="float: right">
+        <form th:action="@{/logout}" method="post">
+            <input class="navbar" type="submit" th:value="#{regio.overview.navbar.logout}" />
+        </form>
+    </li>
+    <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
+</ul>
 
+<div class="content">
+    <h1 th:text="|#{regio.overview.h1.title} ${regio.name}|"></h1>
+    <div class="card">
+        <div class="div-table">
+            <table>
+                <tr>
+                    <th></th>
+                    <th th:text="#{regio.overview.table.th.festival}"></th>
+                    <th th:text="#{regio.overview.table.th.start}"></th>
+                    <th th:text="#{regio.overview.table.th.genre}"></th>
+                    <th th:text="#{regio.overview.table.th.performances}"></th>
+                    <th th:text="#{regio.overview.table.th.freeTickets}"></th>
+                    <th th:text="#{regio.overview.table.th.priceTicket}"></th>
+                    <th th:if="${user.role.name() == 'USER'}" th:text="#{regio.overview.table.th.myTickets}"></th>
+                    <th th:if="${user.role.name() == 'USER'}">Ticket Kopen</th>
+                </tr>
+                <th:block th:each="festival,iter: ${festivals}">
+                    <tr>
+                        <td><img th:src="${festival.logoLocation}" th:alt="${festival.logoDescription}"></td>
+                        <td th:text="${festival.name}"></td>
+                        <td th:with="df=#{date.format}" th:text="${#temporals.format(festival.datum,df)}"></td>
+                        <td th:text="${festival.musicGenre.name}"></td>
+                        <td>
+                            <ul>
+                                <th:block th:each="artist,iter: ${festival.artists}">
+                                    <li th:with="df=#{date.format}" th:text="|${artist.name} - ${#temporals.format(artist.startingHour,df)}|"></li>
+                                </th:block>
+                            </ul>
+                        </td>
+                        <td th:text="${festival.ticket}"></td>
+                        <td>
+                            <span th:if="${user.role.name() == 'USER' && festival.ticket != 0}" th:text="|€ ${#numbers.formatDecimal(festival.ticketPrijs,1,'POINT',2,'COMMA')}|"></span>
+                            <span th:if="${user.role.name() == 'ADMIN'}" th:text="|€ ${#numbers.formatDecimal(festival.ticketPrijs,1,'POINT',2,'COMMA')}|"></span>
+                        </td>
+                        <td th:if="${user.role.name() == 'USER'}">
+                            <span th:if="${userTickets.empty}" th:text="0"></span>
+                            <span th:text="${userTickets.get(festival.festivalid)}"></span>
+                        </td>
+                        <td th:if="${user.role.name() == 'USER'}"><a class="btn" th:href="|/buy/festival/${festival.festivalid}/tickets/${user.username}|" th:text="#{regio.overview.table.th.buyTickets}"></a></td>
+                        <td th:if="${user.role.name() == 'ADMIN'}"><a class="btn" th:href="|/add/performance/festival/${festival.festivalid}|" th:text="#{regio.overview.table.th.addDeletePerformance}"></a></td>
+                    </tr>
+                </th:block>
+
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>

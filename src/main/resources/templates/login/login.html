@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
 <title th:text="#{login.title}"></title>
 <link rel="stylesheet" th:href="@{/css/global.css}" />
 <link rel="stylesheet" th:href="@{/css/login/login.css}" />
 </head>
-<body onload='document.loginForm.username.focus();'>
+<body onload='document.querySelector("input.input-username").focus();'>
 	<div class="content">
 		<div class="login-box">
 			<div class="login-box-inner-content">
@@ -16,9 +16,13 @@
 
 				<form class="login-form" th:action="@{/login}" method="post">
 					<p class="form-text" th:text="#{login.form.usernameTxt}"></p>
-					<input class="input-username" type='text' name='username' value=''>
+					<label>
+						<input class="input-username" type='text' name='username' value=''>
+					</label>
 					<p class="form-text" th:text="#{login.form.passwordTxt}"></p>
-					<input class="input-password" type='password' name='password' />
+					<label>
+						<input class="input-password" type='password' name='password' />
+					</label>
 
 					<button class="submit-button" name="submit" type="submit" th:text="#{login.form.loginBtn}"></button>
 

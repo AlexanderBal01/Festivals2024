@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
     <title th:text="#{403.title}"></title>
@@ -9,7 +9,7 @@
 <body>
 <div class="content">
     <div class="content-box">
-        <div class="login-box-inner-content">
+        <div class="content-box-inner-content">
             <h1 class="h1-access-denied" th:text="#{403.h1.accessDeniedTxt}"></h1>
 
             <form class="logout-form" th:action="@{/logout}" method="post">

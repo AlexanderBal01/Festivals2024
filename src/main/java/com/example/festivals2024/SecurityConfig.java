@@ -32,8 +32,14 @@ public class SecurityConfig {
     				.requestMatchers("/css/**").permitAll()
 					.requestMatchers("/images/**").permitAll()
 					.requestMatchers("/403**").permitAll()
+					.requestMatchers("/artist/**").permitAll()
+					.requestMatchers("/festival/**").permitAll()
 					.requestMatchers("/home/**").hasAnyRole("USER", "ADMIN")
 					.requestMatchers("/genre/**").hasAnyRole("USER", "ADMIN")
+					.requestMatchers("/region/**").hasAnyRole("USER", "ADMIN")
+					.requestMatchers("/add/**").hasRole("ADMIN")
+					.requestMatchers("/buy/**").hasRole("USER")
+					.requestMatchers("/tickets/**").hasRole("USER")
 		).
     	
     	formLogin(form -> 

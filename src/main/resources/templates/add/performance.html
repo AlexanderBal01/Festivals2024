@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{add.performance.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/add/performance.css}">
+</head>
+<body>
+<ul class="navbar">
+    <li class="navbar active"><span class="navbar" th:text="#{add.performance.navbar.active}"></span></li>
+    <li class="navbar"><a class="navbar" th:href="|/home/overview|" th:text="#{add.performance.navbar.goBack}"></a></li>
+    <li class="navbar" style="float: right">
+        <form th:action="@{/logout}" method="post">
+            <input class="navbar" type="submit" th:value="#{add.performance.navbar.logout}" />
+        </form>
+    </li>
+    <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
+</ul>
+
+<div class="content">
+    <h1 th:text="|#{add.performance.h1.title}|"></h1>
+    <div class="card">
+        <img class="card-image" th:src="@{${festival.logoLocation}}" th:alt="${festival.logoDescription}">
+        <div class="card-container">
+            <h2 th:text="|#{add.performance.h2.festival} ${festival.name}|"></h2>
+            <h2 th:with="df=#{date.format}" th:text="|#{add.performance.h2.date} ${#temporals.format(festival.datum,df)}|"></h2>
+        </div>
+        <div class="card-container">
+            <ul>
+                <th:block th:each="artist,iter: ${festival.artists}">
+                    <li th:with="df=#{date.format}" th:text="|${artist.name}: ${#temporals.format(artist.startingHour,df)}|"></li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+
+    <div class="inner-content">
+        <div class="inner-content-card">
+            <h2 class="form-title" th:text="#{add.performance.h2.formAdd}"></h2>
+            <form method="post" th:action="|@{/add/performance/festival/}${festival.festivalid}/add|" th:object="${artist}">
+                <p class="form-text" th:text="#{add.performance.form.naamArtiest}"></p>
+                <label>
+                    <input type="text" name="name" class="input">
+                    <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></p>
+                </label>
+                <p class="form-text" th:text="#{add.performance.form.startuur}"></p>
+                <label>
+                    <input type="datetime-local" th:min="${festival.datum}" name="startingHour" class="input">
+                    <p th:if="${#fields.hasErrors('startingHour')}" th:errorclass="error" th:errors="*{startingHour}"></p>
+                    <p th:if="${errorStartingHour}" class="error" th:text="#{add.performance.startingHourAlreadyError}"></p>
+                </label>
+                <p class="form-text" th:text="#{add.performance.form.subgenre}"></p>
+                <label>
+                    <input type="text" name="subgenre1" class="input">
+                    <p th:if="${#fields.hasErrors('subgenre1')}" th:errorclass="error" th:errors="*{subgenre1}"></p>
+                    <input type="text" name="subgenre2" class="input">
+                    <p th:if="${#fields.hasErrors('subgenre2')}" th:errorclass="error" th:errors="*{subgenre2}"></p>
+                </label>
+                <p class="form-text" th:text="#{add.performance.form.nmr}"></p>
+                <label>
+                    <input type="text" name="festivalnummer1" class="input">
+                    <p th:if="${#fields.hasErrors('festivalnummer1')}" th:errorclass="error" th:errors="*{festivalnummer1}"></p>
+                    <input type="text" name="festivalnummer2" class="input">
+                    <p th:if="${#fields.hasErrors('festivalnummer2')}" th:errorclass="error" th:errors="*{festivalnummer2}"></p>
+                </label>
+                <p></p>
+                <button class="submit-button" name="submit" type="submit" th:text="#{add.performance.form.add}"></button>
+            </form>
+        </div>
+
+        <div class="inner-content-card">
+            <h2 class="form-title" th:text="#{add.performance.h2.formDelete}"></h2>
+            <form method="post" th:action="|@{/add/performance/festival/}${festival.festivalid}/delete|">
+                <p class="form-text" th:text="#{add.performance.form.deleteArtist}"></p>
+                <label>
+                    <select class="input" name="artistId" required>
+                        <th:block th:each="artist,iter: ${festival.artists}" >
+                            <option th:value="${artist.artistid}" th:text="${artist.name}"></option>
+                        </th:block>
+                    </select>
+                </label>
+                <p></p>
+                <button class="submit-button" name="submit" type="submit" th:text="#{add.performance.form.delete}"></button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -45,11 +45,9 @@ public class GenreController {
 
         if (musicGenre.isPresent()) {
             model.addAttribute("musicGenre", musicGenre.get());
-            for (int i = 0; i < musicGenre.get().getFestivals().size(); i++) {
-                Festival festival = festivals.get(i);
+            for (Festival festival : festivals) {
                 long userTickets = festival.getFestivalVisitors().stream().filter(user::equals).count();
                 festivalUserTickets.put(festival.getFestivalid(), (int) userTickets);
-                i++;
             }
 
             model.addAttribute("userTickets", festivalUserTickets);

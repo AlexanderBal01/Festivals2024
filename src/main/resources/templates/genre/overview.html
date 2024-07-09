@@ -10,8 +10,7 @@
     <ul class="navbar">
         <li class="navbar active"><span class="navbar" th:text="#{genre.overview.navbar.active}"></span></li>
         <li class="navbar"><a class="navbar" th:href="|/home/overview|" th:text="#{genre.overview.navbar.goBack}"></a></li>
-        <li class="navbar" th:if="${user.role.name() == 'USER' && user.tickets == ne}"><a class="navbar" th:href="|/tickets/${user.username}|" th:text="#{genre.overview.navbar.tickets}"></a></li>
-        <li class="navbar" th:if="${user.role.name() == 'ADMIN'}"><a class="navbar" th:href="|/genre/${musicGenre.musicgenreid}/add-festival|" th:text="|${musicGenre.name}: #{genre.overview.navbar.festival}|"></a></li>
+        <li class="navbar" th:if="${user.role.name() == 'USER' && user.tickets == ne}"><a class="navbar" th:href="|/tickets|" th:text="#{genre.overview.navbar.tickets}"></a></li>
         <li class="navbar" style="float: right">
             <form th:action="@{/logout}" method="post">
                 <input class="navbar" type="submit" th:value="#{genre.overview.navbar.logout}" />
@@ -21,11 +20,12 @@
     </ul>
 
     <div class="content">
-        <h2 th:text="|#{genre.overview.h2.title} ${musicGenre.name}|"></h2>
+        <h1 th:text="|#{genre.overview.h1.title} ${musicGenre.name}|"></h1>
         <div class="card">
             <div class="div-table">
                 <table>
                     <tr>
+                        <th></th>
                         <th th:text="#{genre.overview.table.th.festival}"></th>
                         <th th:text="#{genre.overview.table.th.start}"></th>
                         <th th:text="#{genre.overview.table.th.location}"></th>
@@ -37,26 +37,28 @@
                     </tr>
                     <th:block th:each="festival,iter: ${festivals}">
                         <tr>
+                            <td><img th:src="${festival.logoLocation}" th:alt="${festival.logoDescription}"></td>
                             <td th:text="${festival.name}"></td>
-                            <td th:text="${festival.datum}"></td>
+                            <td th:with="df=#{date.format}" th:text="${#temporals.format(festival.datum,df)}"></td>
                             <td th:text="${festival.regio.name}"></td>
                             <td>
                                 <ul>
                                     <th:block th:each="artist,iter: ${festival.artists}">
-                                        <li th:text="|${artist.name} - ${artist.datum}|"></li>
+                                        <li th:with="df=#{date.format}" th:text="|${artist.name} - ${#temporals.format(artist.startingHour,df)}|"></li>
                                     </th:block>
                                 </ul>
                             </td>
                             <td th:text="${festival.ticket}"></td>
                             <td>
-                                <span th:if="${user.role.name() == 'USER' && festival.ticket != 0}" th:text="${festival.ticketPrijs}"></span>
-                                <span th:if="${user.role.name() == 'ADMIN'}" th:text="${festival.ticketPrijs}"></span>
+                                <span th:if="${user.role.name() == 'USER' && festival.ticket != 0}" th:text="|€ ${#numbers.formatDecimal(festival.ticketPrijs,1,'POINT',2,'COMMA')}|"></span>
+                                <span th:if="${user.role.name() == 'ADMIN'}" th:text="|€ ${#numbers.formatDecimal(festival.ticketPrijs,1,'POINT',2,'COMMA')}|"></span>
                             </td>
                             <td th:if="${user.role.name() == 'USER'}">
-                                <span th:if="${userTickets.isEmpty()}" th:text="0"></span>
+                                <span th:if="${userTickets.empty}" th:text="0"></span>
                                 <span th:text="${userTickets.get(festival.festivalid)}"></span>
                             </td>
-                            <td th:if="${user.role.name() == 'USER'}"><a class="btn" th:href="|/buy/festival/${festival.festivalid}/tickets|">Koop tickets</a></td>
+                            <td th:if="${user.role.name() == 'USER'}"><a class="btn" th:href="|/buy/festival/${festival.festivalid}/tickets/${user.username}|" th:text="#{genre.overview.table.th.buyTickets}"></a></td>
+                            <td th:if="${user.role.name() == 'ADMIN'}"><a class="btn" th:href="|/add/performance/festival/${festival.festivalid}|" th:text="#{genre.overview.table.th.addDeletePerformance}"></a></td>
                         </tr>
                     </th:block>
 

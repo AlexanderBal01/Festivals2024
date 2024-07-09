@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{buy.tickets.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/buy/tickets.css}">
+</head>
+<body>
+    <ul class="navbar">
+        <li class="navbar active"><span class="navbar" th:text="#{buy.tickets.navbar.active}"></span></li>
+        <li class="navbar"><a class="navbar" th:href="|/home/overview|" th:text="#{buy.tickets.navbar.goBack}"></a></li>
+        <li class="navbar" style="float: right">
+            <form th:action="@{/logout}" method="post">
+                <input class="navbar" type="submit" th:value="#{buy.tickets.navbar.logout}" />
+            </form>
+        </li>
+        <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
+    </ul>
+
+    <div class="content">
+        <h1 th:text="|#{buy.tickets.h1.title} ${festival.name}|"></h1>
+        <div class="card">
+            <img class="card-image" th:src="@{${festival.logoLocation}}" th:alt="${festival.logoDescription}">
+            <div class="card-container">
+                <h2 th:text="|#{buy.tickets.h2.festival} ${festival.name}|"></h2>
+                <h2 th:text="|#{buy.tickets.h2.tickets} ${userTickets}|"></h2>
+            </div>
+            <div class="card-container">
+                <ul>
+                    <th:block th:each="artist,iter: ${festival.artists}">
+                        <li th:text="|${artist.name}: ${artist.startingHour}|"></li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+        <div class="inner-content-card">
+            <h2 class="form-title" th:text="#{buy.tickets.h2.formBuy}"></h2>
+            <form method="post" th:action="|@{/buy/festival/}${festival.festivalid}/tickets/${user.username}/buy|">
+                <p class="form-text" th:text="#{buy.tickets.form.aantal}"></p>
+                <label>
+                    <input type="number" th:max="15" name="aantal" class="input">
+                    <p th:if="${errorAantal}" class="error" th:text="#{buy.tickets.error}"></p>
+                </label>
+                <p></p>
+                <button class="submit-button" name="submit" type="submit" th:text="#{buy.tickets.form.buy}"></button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

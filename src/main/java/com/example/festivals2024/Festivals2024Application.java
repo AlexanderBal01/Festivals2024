@@ -14,10 +14,9 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import service.FestivalService;
-import service.MusicGenreService;
-import service.MyUserDetailService;
-import service.RegioService;
+import perform.PerformRestFestival;
+import service.*;
+import validator.ArtistValidation;
 
 import java.util.Locale;
 
@@ -28,6 +27,12 @@ public class Festivals2024Application implements WebMvcConfigurer {
 
     public static void main(String[] args) {
         SpringApplication.run(Festivals2024Application.class, args);
+
+        try {
+            new PerformRestFestival();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -46,7 +51,7 @@ public class Festivals2024Application implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("language");
+        lci.setParamName("lang");
         return lci;
     }
 
@@ -63,6 +68,7 @@ public class Festivals2024Application implements WebMvcConfigurer {
         return messageSource;
     }
 
+
     @Bean
     UserDetailsService myUserDetailsService() {
         return new MyUserDetailService();
@@ -76,4 +82,10 @@ public class Festivals2024Application implements WebMvcConfigurer {
 
     @Bean
     FestivalService festivalService() { return new FestivalService(); }
+
+    @Bean
+    ArtistService artistService() { return new ArtistService(); }
+
+    @Bean
+    ArtistValidation artistValidation() { return new ArtistValidation(); }
 }
