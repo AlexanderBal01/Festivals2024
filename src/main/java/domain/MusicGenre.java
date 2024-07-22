@@ -13,7 +13,7 @@ import java.util.Set;
 @Builder
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = "musicgenreid")
 @ToString(exclude = "musicgenreid")
 @Table(name = "musicgenre")
