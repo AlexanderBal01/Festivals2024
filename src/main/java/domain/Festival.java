@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Data
 @AllArgsConstructor
-@NoArgsConstructor()
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = "festivalid")
 @ToString(exclude = "festivalid")
 @Table(name = "festival")
